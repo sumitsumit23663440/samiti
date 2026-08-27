@@ -1,0 +1,15 @@
+{
+  "name": "karunik-kalyan-samiti-server",
+  "version": "1.0.0",
+  "description": "Backend for Karunik Kalyan Samiti website - stores volunteer form submissions in MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "mysql2": "^3.11.3",
+    "dotenv": "^16.4.5"
+  }
+}

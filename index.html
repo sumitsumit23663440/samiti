@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>कारूणिक कल्याण समिति | Karunik Kalyan Samiti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Cormorant+Garamond:wght@500;600;700&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --cream:#FBF2E1;
+    --paper:#FFFCF5;
+    --saffron:#DE7A22;
+    --saffron-dark:#B8591A;
+    --maroon:#7A2323;
+    --maroon-dark:#5A1919;
+    --gold:#C79A2C;
+    --ink:#2E2013;
+    --ink-soft:#5B4A38;
+    --line:#E7D6B8;
+    --flag-pink:#D65C8B;
+    --flag-yellow:#EFC13B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Mukta',sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.devanagari{
+    font-family:'Tiro Devanagari Hindi','Cormorant Garamond',serif;
+    font-weight:400;
+    color:var(--maroon-dark);
+  }
+  .eng-serif{ font-family:'Cormorant Garamond',serif; font-style:italic; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- bunting divider (signature element) ---------- */
+  .bunting{
+    height:34px;
+    width:100%;
+    background-repeat:repeat-x;
+    background-size:44px 34px;
+    background-image:
+      linear-gradient(135deg, var(--flag-pink) 25%, transparent 25.5%),
+      linear-gradient(45deg, var(--gold) 25%, transparent 25.5%),
+      linear-gradient(135deg, var(--saffron) 25%, transparent 25.5%),
+      linear-gradient(45deg, var(--maroon) 25%, transparent 25.5%);
+    background-position: 0 0, 11px 0, 22px 0, 33px 0;
+    opacity:.9;
+  }
+  .bunting.flip{ transform:scaleY(-1); }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,242,225,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .navrow{ display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1120px; margin:0 auto; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-mark{
+    width:42px;height:42px;border-radius:50%;
+    background:conic-gradient(from 45deg,var(--saffron),var(--gold),var(--maroon),var(--saffron));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper); font-family:'Tiro Devanagari Hindi',serif; font-size:20px;
+  }
+  .brand-text h1{ font-size:19px; line-height:1.1; }
+  .brand-text span{ font-size:11px; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; font-family:'Mukta',sans-serif; }
+  nav ul{ list-style:none; display:flex; gap:26px; }
+  nav a{ font-size:15px; font-weight:600; color:var(--maroon-dark); position:relative; }
+  nav a::after{ content:""; position:absolute; left:0; bottom:-4px; width:0; height:2px; background:var(--saffron); transition:width .25s ease; }
+  nav a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; background:none; border:none; font-size:26px; color:var(--maroon-dark); cursor:pointer; }
+
+  /* ---------- hero ---------- */
+  .hero{ position:relative; min-height:82vh; display:flex; align-items:flex-end; }
+  .hero img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+    filter:saturate(1.08) contrast(1.02);
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(46,32,19,.15) 0%, rgba(46,32,19,.35) 55%, rgba(30,18,9,.86) 100%);
+  }
+  .hero-content{ position:relative; z-index:2; width:100%; padding:64px 24px 56px; max-width:1120px; margin:0 auto; color:var(--paper); }
+  .eyebrow{
+    display:inline-block; font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--flag-yellow); border:1px solid rgba(239,193,59,.5); padding:5px 12px; border-radius:100px; margin-bottom:18px;
+  }
+  .hero h2{ color:var(--paper); font-size:clamp(34px,5.4vw,58px); line-height:1.15; max-width:820px; }
+  .hero p.tagline{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(18px,2.1vw,24px); color:#F3E5C8; margin-top:14px; max-width:600px; }
+  .hero-ctas{ display:flex; gap:14px; margin-top:30px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:6px; font-weight:700; font-size:15px;
+    border:1.5px solid transparent; cursor:pointer; transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-primary{ background:var(--saffron); color:var(--paper); box-shadow:0 6px 18px rgba(184,89,26,.35); }
+  .btn-primary:hover{ background:var(--saffron-dark); }
+  .btn-ghost{ background:transparent; color:var(--paper); border-color:rgba(255,251,241,.55); }
+  .btn-ghost:hover{ background:rgba(255,251,241,.12); }
+
+  /* ---------- section basics ---------- */
+  section{ padding:78px 0; }
+  .kicker{ font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--saffron-dark); font-weight:700; margin-bottom:10px; }
+  .section-title{ font-size:clamp(28px,3.6vw,40px); margin-bottom:16px; }
+  .section-lede{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:19px; color:var(--ink-soft); max-width:640px; }
+
+  /* ---------- about ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center; margin-top:44px; }
+  .about-photo{ position:relative; }
+  .about-photo img{ border-radius:10px; box-shadow:0 20px 44px rgba(46,32,19,.22); }
+  .about-photo::after{
+    content:""; position:absolute; inset:14px -14px -14px 14px; z-index:-1;
+    border:2px solid var(--gold); border-radius:10px; opacity:.55;
+  }
+  .about-text p{ margin-bottom:16px; color:var(--ink-soft); font-size:16px; }
+  .fact-row{ display:flex; gap:28px; margin-top:28px; flex-wrap:wrap; }
+  .fact{ border-left:2px solid var(--saffron); padding-left:14px; }
+  .fact strong{ display:block; font-family:'Tiro Devanagari Hindi',serif; font-size:22px; color:var(--maroon-dark); }
+  .fact span{ font-size:13px; color:var(--ink-soft); }
+
+  /* ---------- activities ---------- */
+  .activities{ background:var(--paper); }
+  .card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:44px; }
+  .card{
+    background:var(--cream); border:1px solid var(--line); border-radius:12px; padding:30px 26px;
+    transition:transform .22s ease, box-shadow .22s ease;
+  }
+  .card:hover{ transform:translateY(-5px); box-shadow:0 14px 30px rgba(122,35,35,.1); }
+  .card .icon{
+    width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--saffron),var(--gold)); color:var(--paper); font-size:24px; margin-bottom:18px;
+  }
+  .card h3{ font-size:21px; margin-bottom:8px; }
+  .card p{ color:var(--ink-soft); font-size:14.5px; }
+
+  /* ---------- gallery ---------- */
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:44px; }
+  .gallery-item{ position:relative; overflow:hidden; border-radius:10px; aspect-ratio:4/5; cursor:pointer; }
+  .gallery-item img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .gallery-item:hover img{ transform:scale(1.08); }
+  .gallery-item .cap{
+    position:absolute; left:0; right:0; bottom:0; padding:14px 12px 10px;
+    background:linear-gradient(180deg, transparent, rgba(30,18,9,.82));
+    color:var(--paper); font-size:13px; font-weight:600;
+  }
+  .lightbox{
+    position:fixed; inset:0; background:rgba(20,12,6,.92); z-index:100; display:none;
+    align-items:center; justify-content:center; padding:30px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width:min(900px,90vw); max-height:85vh; border-radius:8px; }
+  .lightbox-close{
+    position:absolute; top:22px; right:28px; color:var(--paper); font-size:32px; background:none; border:none; cursor:pointer;
+  }
+
+  /* ---------- volunteer modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(20,12,6,.72); z-index:120; display:none;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-card{
+    background:var(--paper); border-radius:14px; max-width:520px; width:100%;
+    max-height:88vh; overflow-y:auto; padding:32px 30px 26px; position:relative;
+    box-shadow:0 30px 60px rgba(0,0,0,.4);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:18px; background:none; border:none; font-size:26px;
+    color:var(--ink-soft); cursor:pointer; line-height:1;
+  }
+  .modal-card .kicker{ margin-bottom:6px; }
+  .modal-card h3{ font-size:24px; margin-bottom:6px; }
+  .modal-card .sub{ font-size:14px; color:var(--ink-soft); margin-bottom:22px; }
+  .form-row{ margin-bottom:16px; }
+  .form-row label{ display:block; font-size:13.5px; font-weight:700; color:var(--maroon-dark); margin-bottom:6px; }
+  .form-row input[type=text],
+  .form-row input[type=tel],
+  .form-row input[type=email],
+  .form-row textarea{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:11px 13px;
+    font-family:'Mukta',sans-serif; font-size:14.5px; background:var(--cream); color:var(--ink);
+  }
+  .form-row input:focus, .form-row textarea:focus{ outline:2px solid var(--saffron); outline-offset:1px; }
+  .form-row textarea{ min-height:80px; resize:vertical; }
+  .check-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .check-item{
+    display:flex; align-items:center; gap:8px; font-size:13.5px; border:1px solid var(--line);
+    border-radius:8px; padding:9px 10px; background:var(--cream); cursor:pointer;
+  }
+  .check-item input{ accent-color:var(--saffron); }
+  .field-error{ font-size:12px; color:#B02222; margin-top:5px; display:none; }
+  .form-submit{ width:100%; margin-top:6px; justify-content:center; }
+  .form-success{
+    display:none; text-align:center; padding:14px; border:1px solid var(--gold);
+    border-radius:8px; background:#FBF0D9; color:var(--maroon-dark); font-weight:600; font-size:14px; margin-top:16px;
+  }
+
+  /* ---------- donate ---------- */
+  .donate{ background:var(--maroon-dark); color:var(--paper); position:relative; overflow:hidden; }
+  .donate::before{
+    content:""; position:absolute; top:-80px; right:-80px; width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(circle, rgba(222,122,34,.35), transparent 70%);
+  }
+  .donate-grid{ display:grid; grid-template-columns:1fr .85fr; gap:50px; align-items:center; position:relative; z-index:1; }
+  .donate .kicker{ color:var(--flag-yellow); }
+  .donate h2{ color:var(--paper); }
+  .donate p{ color:#EAD9C0; margin-top:14px; max-width:520px; }
+  .donate-points{ margin-top:26px; display:flex; flex-direction:column; gap:10px; }
+  .donate-points div{ display:flex; gap:10px; align-items:flex-start; font-size:15px; color:#F3E5C8; }
+  .qr-card{
+    background:var(--paper); color:var(--ink); border-radius:14px; padding:28px; text-align:center;
+    box-shadow:0 24px 50px rgba(0,0,0,.35);
+  }
+  .qr-card h3{ font-size:19px; margin-bottom:4px; }
+  .qr-card .sub{ font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; }
+  #qrcode{ display:flex; justify-content:center; margin:0 auto 16px; padding:10px; background:var(--paper); border:1px solid var(--line); border-radius:10px; width:fit-content; }
+  .upi-id-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    border:1px dashed var(--gold); border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:14px;
+  }
+  .upi-id-row span{ font-weight:700; color:var(--maroon-dark); }
+  .copy-btn{ background:var(--saffron); color:var(--paper); border:none; padding:7px 12px; border-radius:6px; font-size:12.5px; font-weight:700; cursor:pointer; }
+  .copy-btn:hover{ background:var(--saffron-dark); }
+  .amount-row{ display:flex; gap:8px; margin-bottom:16px; }
+  .amount-row button{
+    flex:1; padding:9px 0; border-radius:6px; border:1px solid var(--line); background:var(--cream); font-weight:700; cursor:pointer; font-size:13.5px;
+  }
+  .amount-row button.active{ background:var(--saffron); color:var(--paper); border-color:var(--saffron); }
+  .note{ font-size:11.5px; color:var(--ink-soft); }
+
+  /* ---------- footer ---------- */
+  footer{ background:var(--ink); color:#DCCBAF; padding:50px 0 26px; }
+  .foot-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; }
+  footer h4{ color:var(--paper); font-family:'Tiro Devanagari Hindi',serif; font-size:19px; margin-bottom:14px; }
+  footer p, footer li{ font-size:14px; color:#C7B79B; }
+  footer ul{ list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .foot-bottom{ border-top:1px solid #4A3B28; margin-top:36px; padding-top:20px; font-size:12.5px; color:#9C8A6E; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  @media(max-width:860px){
+    nav{ display:none; }
+    .nav-toggle{ display:block; }
+    .about-grid, .donate-grid{ grid-template-columns:1fr; }
+    .card-grid{ grid-template-columns:1fr 1fr; }
+    .gallery-grid{ grid-template-columns:1fr 1fr; }
+    .foot-grid{ grid-template-columns:1fr; }
+  }
+  @media(max-width:520px){
+    .card-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navrow">
+    <div class="brand">
+      <div class="brand-mark">क</div>
+      <div class="brand-text">
+        <h1>कारूणिक कल्याण समिति</h1>
+        <span>Karunik Kalyan Samiti</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">परिचय</a></li>
+        <li><a href="#activities">कार्यक्रम</a></li>
+        <li><a href="#gallery">गैलरी</a></li>
+        <li><a href="#donate">दान करें</a></li>
+        <li><a href="javascript:void(0)" onclick="openVolunteerForm()">स्वयंसेवक बनें</a></li>
+        <li><a href="#contact">संपर्क</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <img src="images/ashram-sunset.jpg" alt="कारूणिक कल्याण समिति भवन, नारायण नगर - संध्या दृश्य">
+  <div class="hero-content">
+    <span class="eyebrow">नारायण नगर · हरदोई, उत्तर प्रदेश</span>
+    <h2>करुणा, सेवा और आध्यात्म को समर्पित एक परिवार</h2>
+    <p class="tagline">"कारूणिक कल्याण समिति के तत्वावधान में समाज सेवा, संस्कार और जनकल्याण के कार्य निरंतर जारी हैं।"</p>
+    <div class="hero-ctas">
+      <a href="#donate" class="btn btn-primary">दान करें ↗</a>
+      <button class="btn btn-ghost" onclick="openVolunteerForm()">स्वयंसेवक बनें ↗</button>
+      <a href="#activities" class="btn btn-ghost">हमारे कार्यक्रम देखें</a>
+    </div>
+  </div>
+</section>
+
+<div class="bunting" aria-hidden="true"></div>
+
+<section id="about">
+  <div class="wrap">
+    <p class="kicker">हमारा परिचय</p>
+    <h2 class="section-title">समिति के बारे में</h2>
+    <p class="section-lede">A community trust rooted in Vedic tradition, dedicated to spiritual, social, and public-welfare service.</p>
+
+    <div class="about-grid">
+      <div class="about-photo">
+        <img src="images/ashram-day.jpg" alt="कारूणिक कल्याण समिति भवन - दिन का दृश्य">
+      </div>
+      <div class="about-text">
+        <p>कारूणिक कल्याण समिति, नारायण नगर (हरदोई) में स्थित एक सामाजिक एवं आध्यात्मिक संस्था है, जो समाज में करुणा, संस्कार और सेवा के मूल्यों को आगे बढ़ाने के लिए कार्यरत है। समिति समय-समय पर धार्मिक अनुष्ठान, सामूहिक संस्कार, भंडारा एवं जनकल्याण से जुड़े आयोजन करती है।</p>
+        <p>प्रत्येक वर्ष चैत्र नवरात्रि एवं नव संवत्सर के अवसर पर समिति द्वारा नवदिवसीय भव्य आध्यात्मिक, सामाजिक एवं जनकल्याण महोत्सव का आयोजन किया जाता है, जिसमें आस-पास के गाँवों से सैकड़ों श्रद्धालु सम्मिलित होते हैं।</p>
+        <div class="fact-row">
+          <div class="fact"><strong>9 दिवसीय</strong><span>वार्षिक महोत्सव</span></div>
+          <div class="fact"><strong>सामूहिक</strong><span>यज्ञोपवीत संस्कार</span></div>
+          <div class="fact"><strong>निःशुल्क</strong><span>भंडारा सेवा</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bunting flip" aria-hidden="true"></div>
+
+<section id="activities" class="activities">
+  <div class="wrap">
+    <p class="kicker">हमारे कार्य</p>
+    <h2 class="section-title">गतिविधियाँ एवं सेवा-कार्य</h2>
+    <p class="section-lede">Rituals, community meals, and welfare programmes carried out through the year.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="icon">🔥</div>
+        <h3>यज्ञोपवीत संस्कार</h3>
+        <p>वेदानुरूप विधि-विधान से सामूहिक यज्ञोपवीत (उपनयन) संस्कार का आयोजन, जिससे नई पीढ़ी को वैदिक परंपरा से जोड़ा जाता है।</p>
+      </div>
+      <div class="card">
+        <div class="icon">🍽️</div>
+        <h3>भंडारा एवं सेवा भोज</h3>
+        <p>महोत्सव एवं विशेष अवसरों पर सामूहिक भंडारे का आयोजन, जिसमें सभी श्रद्धालुओं को निःशुल्क भोजन प्रसाद वितरित किया जाता है।</p>
+      </div>
+      <div class="card">
+        <div class="icon">🙏</div>
+        <h3>आध्यात्मिक महोत्सव</h3>
+        <p>चैत्र नवरात्रि एवं नव संवत्सर पर नवदिवसीय भव्य आध्यात्मिक, सामाजिक एवं जनकल्याण महोत्सव — कथा, हवन एवं सत्संग सहित।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <p class="kicker">झलकियाँ</p>
+    <h2 class="section-title">गैलरी</h2>
+    <p class="section-lede">Moments from our recent events, sanskars, and community gatherings.</p>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('images/yagyopaveet-collage.jpg')">
+        <img src="images/yagyopaveet-collage.jpg" alt="सामूहिक वेदानुरूप यज्ञोपवीत संस्कार">
+        <div class="cap">यज्ञोपवीत संस्कार</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/bhandara-1.jpg')">
+        <img src="images/bhandara-1.jpg" alt="भंडारा प्रसाद वितरण">
+        <div class="cap">भंडारा प्रसाद वितरण</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/ashram-day.jpg')">
+        <img src="images/ashram-day.jpg" alt="समिति भवन - दिन का दृश्य">
+        <div class="cap">समिति भवन</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('images/ashram-sunset.jpg')">
+        <img src="images/ashram-sunset.jpg" alt="समिति भवन - संध्या सजावट">
+        <div class="cap">महोत्सव की सजावट</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="बंद करें">×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="modal-overlay" id="volunteer-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeVolunteerForm()" aria-label="बंद करें">×</button>
+    <p class="kicker">हमसे जुड़ें</p>
+    <h3>स्वयंसेवक फॉर्म</h3>
+    <p class="sub">कृपया अपनी जानकारी भरें, समिति की टीम आपसे संपर्क करेगी।</p>
+
+    <form id="volunteer-form" novalidate>
+      <div class="form-row">
+        <label for="v-name">पूरा नाम *</label>
+        <input type="text" id="v-name" name="name" placeholder="अपना नाम लिखें">
+        <p class="field-error" id="err-name">कृपया अपना नाम दर्ज करें</p>
+      </div>
+
+      <div class="form-row">
+        <label for="v-phone">मोबाइल नंबर *</label>
+        <input type="tel" id="v-phone" name="phone" placeholder="10 अंकों का मोबाइल नंबर">
+        <p class="field-error" id="err-phone">कृपया मान्य 10 अंकों का मोबाइल नंबर दर्ज करें</p>
+      </div>
+
+      <div class="form-row">
+        <label for="v-email">ईमेल (वैकल्पिक)</label>
+        <input type="email" id="v-email" name="email" placeholder="name@example.com">
+      </div>
+
+      <div class="form-row">
+        <label for="v-village">गाँव / शहर</label>
+        <input type="text" id="v-village" name="village" placeholder="आपका गाँव या शहर">
+      </div>
+
+      <div class="form-row">
+        <label>सेवा क्षेत्र (जो लागू हो चुनें)</label>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" name="interest" value="भंडारा सेवा"> भंडारा सेवा</label>
+          <label class="check-item"><input type="checkbox" name="interest" value="संस्कार आयोजन"> संस्कार आयोजन</label>
+          <label class="check-item"><input type="checkbox" name="interest" value="प्रबंधन/इवेंट"> प्रबंधन / इवेंट</label>
+          <label class="check-item"><input type="checkbox" name="interest" value="प्रचार-प्रसार"> प्रचार-प्रसार</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="v-msg">संदेश (वैकल्पिक)</label>
+        <textarea id="v-msg" name="message" placeholder="आप किस तरह सहयोग करना चाहेंगे..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary form-submit">फॉर्म भेजें</button>
+      <div class="form-success" id="form-success">धन्यवाद 🙏 आपका फॉर्म प्राप्त हो गया है। समिति की टीम जल्द ही आपसे संपर्क करेगी।</div>
+    </form>
+  </div>
+</div>
+
+<section id="donate" class="donate">
+  <div class="wrap">
+    <div class="donate-grid">
+      <div>
+        <p class="kicker">सहयोग करें</p>
+        <h2>समिति के कार्यों में सहयोग दें</h2>
+        <p>आपका छोटा सा दान भंडारे, संस्कार आयोजनों और जनकल्याण कार्यों को निरंतर जारी रखने में सहायक हो सकता है।</p>
+        <div class="donate-points">
+          <div>🙏 <span>UPI, बैंक ट्रांसफर से सीधा दान</span></div>
+          <div>🧾 <span>दान की रसीद उपलब्ध</span></div>
+          <div>🤝 <span>100% राशि सेवा कार्यों में उपयोग</span></div>
+        </div>
+      </div>
+
+      <div class="qr-card">
+        <h3> दान करें</h3>
+        <p class="sub">QR कोड स्कैन करें या UPI ID कॉपी करें</p>
+
+        <div class="amount-row">
+          <button class="amt active" data-amt="0">कोई भी राशि</button>
+          <button class="amt" data-amt="101">₹101</button>
+          <button class="amt" data-amt="501">₹501</button>
+          <button class="amt" data-amt="1100">₹1100</button>
+        </div>
+
+        <div id="qrcode"></div>
+
+        <div class="upi-id-row">
+          <span id="upi-id-text">6388622731@ybl</span>
+          <button class="copy-btn" onclick="copyUpi()">कॉपी करें</button>
+        </div>
+        <p class="note"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bunting" aria-hidden="true"></div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>कारूणिक कल्याण समिति</h4>
+        <p>नारायण नगर,  हरदोई (241401)<br>उत्तर प्रदेश</p>
+      </div>
+      <div>
+        <h4>संपर्क</h4>
+        <ul>
+          <li>फ़ोन: +91 8299250877</li>
+          <li>ईमेल: info@karunikkalyansamiti.org</li>
+        </ul>
+      </div>
+      <div>
+        <h4>लिंक</h4>
+        <ul>
+          <li><a href="#about">परिचय</a></li>
+          <li><a href="#activities">कार्यक्रम</a></li>
+          <li><a href="#gallery">गैलरी</a></li>
+          <li><a href="#donate">दान करें</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 कारूणिक कल्याण समिति। सर्वाधिकार सुरक्षित।</span>
+      <span>25119011167</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- mobile nav toggle ----
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('nav');
+  toggle.addEventListener('click', () => {
+    const open = nav.style.display === 'block';
+    nav.style.display = open ? 'none' : 'block';
+    if(!open){
+      nav.style.position='absolute'; nav.style.top='64px'; nav.style.left='0';
+      nav.style.right='0'; nav.style.background='var(--paper)'; nav.style.padding='18px 24px';
+      nav.style.borderBottom='1px solid var(--line)';
+      nav.querySelector('ul').style.flexDirection='column'; nav.querySelector('ul').style.gap='16px';
+    }
+  });
+
+  // ---- lightbox ----
+  function openLightbox(src){
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
+  });
+
+  // ---- volunteer modal ----
+  const ORG_EMAIL = "info@karunikkalyansamiti.org"; // TODO: replace with the samiti's real email
+  const API_BASE_URL = "http://localhost:3000";     // TODO: change to your live server URL once deployed
+
+  function openVolunteerForm(){
+    document.getElementById('volunteer-modal').classList.add('open');
+    document.getElementById('volunteer-form').style.display = 'block';
+    document.getElementById('form-success').style.display = 'none';
+  }
+  function closeVolunteerForm(){
+    document.getElementById('volunteer-modal').classList.remove('open');
+  }
+  document.getElementById('volunteer-modal').addEventListener('click', function(e){
+    if(e.target === this) closeVolunteerForm();
+  });
+
+  document.getElementById('volunteer-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const name = document.getElementById('v-name').value.trim();
+    const phone = document.getElementById('v-phone').value.trim();
+    const email = document.getElementById('v-email').value.trim();
+    const village = document.getElementById('v-village').value.trim();
+    const message = document.getElementById('v-msg').value.trim();
+    const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(i => i.value);
+
+    let valid = true;
+    document.getElementById('err-name').style.display = 'none';
+    document.getElementById('err-phone').style.display = 'none';
+
+    if(name.length < 2){
+      document.getElementById('err-name').style.display = 'block';
+      valid = false;
+    }
+    if(!/^[0-9]{10}$/.test(phone.replace(/\s|-/g,''))){
+      document.getElementById('err-phone').style.display = 'block';
+      valid = false;
+    }
+    if(!valid) return;
+
+    const submitBtn = document.querySelector('.form-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'भेजा जा रहा है...';
+
+    const payload = { name, phone, email, village, interests, message };
+    let savedToDatabase = false;
+
+    // 1. Try saving to the real database via the backend server.
+    try{
+      const res = await fetch(`${API_BASE_URL}/api/volunteer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(res.ok) savedToDatabase = true;
+    }catch(err){
+      // Server not running / not deployed yet — fall through to the email fallback below.
+    }
+
+    // 2. Fallback: if the server isn't reachable, send a pre-filled email instead
+    //    so no submission is ever lost, even before the backend is set up.
+    if(!savedToDatabase){
+      const body = [
+        `नाम: ${name}`,
+        `मोबाइल: ${phone}`,
+        email ? `ईमेल: ${email}` : null,
+        village ? `गाँव/शहर: ${village}` : null,
+        interests.length ? `सेवा क्षेत्र: ${interests.join(', ')}` : null,
+        message ? `संदेश: ${message}` : null
+      ].filter(Boolean).join('\n');
+      const mailto = `mailto:${ORG_EMAIL}?subject=${encodeURIComponent('स्वयंसेवक पंजीकरण - ' + name)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'फॉर्म भेजें';
+    document.getElementById('volunteer-form').reset();
+    document.getElementById('form-success').style.display = 'block';
+  });
+
+  // ---- UPI QR code ----
+  const UPI_ID = "6388622731@ybl";   // TODO: replace with the samiti's real UPI ID
+  const PAYEE_NAME = "Karunik Kalyan Samiti";
+
+  let currentAmount = 0;
+
+  function buildUpiUri(amount){
+    let uri = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&cu=INR`;
+    if(amount && amount > 0){ uri += `&am=${amount}`; }
+    return uri;
+  }
+
+  let qr = null;
+  function renderQr(amount){
+    const el = document.getElementById('qrcode');
+    el.innerHTML = "";
+    qr = new QRCode(el, {
+      text: buildUpiUri(amount),
+      width: 176,
+      height: 176,
+      colorDark: "#2E2013",
+      colorLight: "#FFFCF5",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+  renderQr(0);
+
+  document.querySelectorAll('.amt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentAmount = parseInt(btn.dataset.amt, 10);
+      renderQr(currentAmount);
+    });
+  });
+
+  function copyUpi(){
+    navigator.clipboard.writeText(UPI_ID).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const original = btn.textContent;
+      btn.textContent = "कॉपी हो गया ✓";
+      setTimeout(() => btn.textContent = original, 180);
+    });
+  }
+</script>
+
+</body>
+</html>
