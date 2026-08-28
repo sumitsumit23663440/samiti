@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>स्वयंसेवक सूची | Karunik Kalyan Samiti</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --cream:#FBF2E1; --paper:#FFFCF5; --saffron:#DE7A22; --maroon-dark:#5A1919; --ink:#2E2013; --ink-soft:#5B4A38; --line:#E7D6B8; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ background:var(--cream); color:var(--ink); font-family:'Mukta',sans-serif; padding:24px; }
+  h1{ font-family:'Tiro Devanagari Hindi',serif; color:var(--maroon-dark); font-size:26px; margin-bottom:4px; }
+  .sub{ color:var(--ink-soft); font-size:14px; margin-bottom:20px; }
+  .toolbar{ display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+  input[type=text]{ padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:14px; min-width:220px; }
+  button{ padding:9px 16px; border-radius:8px; border:1px solid var(--saffron); background:var(--saffron); color:#fff; font-weight:600; cursor:pointer; font-size:13.5px; }
+  button.secondary{ background:var(--paper); color:var(--maroon-dark); }
+  .count{ font-size:13px; color:var(--ink-soft); margin-left:auto; }
+  table{ width:100%; border-collapse:collapse; background:var(--paper); border-radius:10px; overflow:hidden; box-shadow:0 4px 18px rgba(46,32,19,.08); }
+  th, td{ padding:11px 12px; text-align:left; font-size:13.5px; border-bottom:1px solid var(--line); }
+  th{ background:var(--maroon-dark); color:#fff; position:sticky; top:0; }
+  tr:hover td{ background:#FBF0D9; }
+  .empty, .loading{ padding:40px; text-align:center; color:var(--ink-soft); }
+  .table-wrap{ overflow-x:auto; }
+</style>
+</head>
+<body>
+
+<h1>स्वयंसेवक सूची</h1>
+<p class="sub">Volunteer submissions — read-only view of the live database</p>
+
+<div id="login-box" style="max-width:340px">
+  <p style="font-size:13.5px;margin-bottom:8px;color:var(--ink-soft)">यह पृष्ठ सुरक्षित है — कृपया पासवर्ड डालें</p>
+  <div style="display:flex;gap:8px">
+    <input type="password" id="admin-key-input" placeholder="पासवर्ड" style="flex:1">
+    <button onclick="tryLogin()">देखें</button>
+  </div>
+  <p id="login-error" style="color:#B02222;font-size:12.5px;margin-top:8px;display:none">गलत पासवर्ड, पुनः प्रयास करें।</p>
+</div>
+
+<div id="content" style="display:none">
+<div class="toolbar">
+  <input type="text" id="search" placeholder="नाम या मोबाइल से खोजें...">
+  <button onclick="downloadCsv()">Excel में डाउनलोड करें</button>
+  <button class="secondary" onclick="load()">रीफ्रेश करें</button>
+  <button class="secondary" onclick="logout()">लॉगआउट</button>
+  <span class="count" id="count"></span>
+</div>
+
+<div class="table-wrap">
+  <table id="table" style="display:none">
+    <thead>
+      <tr>
+        <th>#</th><th>नाम</th><th>मोबाइल</th><th>ईमेल</th><th>गाँव/शहर</th><th>सेवा क्षेत्र</th><th>संदेश</th><th>दिनांक</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <p class="loading" id="status">लोड हो रहा है...</p>
+</div>
+</div>
+
+<script>
+  // Change this if your backend URL is different.
+  const API_BASE_URL = "https://karunik-kalyan-samiti.onrender.com";
+
+  let allRows = [];
+
+  function getStoredKey(){
+    return sessionStorage.getItem('admin_key') || '';
+  }
+
+  function tryLogin(){
+    const key = document.getElementById('admin-key-input').value;
+    sessionStorage.setItem('admin_key', key);
+    document.getElementById('login-error').style.display = 'none';
+    load();
+  }
+
+  function logout(){
+    sessionStorage.removeItem('admin_key');
+    document.getElementById('login-box').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('admin-key-input').value = '';
+  }
+
+  async function load(){
+    const key = getStoredKey();
+    if(!key){ return; } // wait for login
+
+    document.getElementById('status').textContent = 'लोड हो रहा है...';
+    document.getElementById('table').style.display = 'none';
+
+    try{
+      const res = await fetch(`${API_BASE_URL}/api/volunteers`, {
+        headers: { 'x-admin-key': key }
+      });
+
+      if(res.status === 401){
+        document.getElementById('login-error').style.display = 'block';
+        document.getElementById('login-box').style.display = 'block';
+        document.getElementById('content').style.display = 'none';
+        sessionStorage.removeItem('admin_key');
+        return;
+      }
+
+      allRows = await res.json();
+      document.getElementById('login-box').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      render(allRows);
+    }catch(err){
+      document.getElementById('status').textContent = 'डेटा लोड नहीं हो सका। कृपया बाद में पुनः प्रयास करें।';
+    }
+  }
+
+  function render(rows){
+    const tbody = document.getElementById('tbody');
+    const table = document.getElementById('table');
+    const status = document.getElementById('status');
+    const count = document.getElementById('count');
+
+    if(!rows.length){
+      table.style.display = 'none';
+      status.style.display = 'block';
+      status.textContent = 'अभी तक कोई स्वयंसेवक पंजीकरण नहीं हुआ है।';
+      count.textContent = '';
+      return;
+    }
+
+    status.style.display = 'none';
+    table.style.display = 'table';
+    count.textContent = `कुल ${rows.length} प्रविष्टियाँ`;
+
+    tbody.innerHTML = rows.map((r, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${escapeHtml(r.name || '')}</td>
+        <td>${escapeHtml(r.phone || '')}</td>
+        <td>${escapeHtml(r.email || '-')}</td>
+        <td>${escapeHtml(r.village || '-')}</td>
+        <td>${escapeHtml(r.interests || '-')}</td>
+        <td>${escapeHtml(r.message || '-')}</td>
+        <td>${formatDate(r.created_at)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function formatDate(iso){
+    if(!iso) return '-';
+    const d = new Date(iso);
+    return d.toLocaleString('hi-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+
+  document.getElementById('search').addEventListener('input', function(){
+    const q = this.value.trim().toLowerCase();
+    if(!q){ render(allRows); return; }
+    render(allRows.filter(r =>
+      (r.name || '').toLowerCase().includes(q) ||
+      (r.phone || '').toLowerCase().includes(q)
+    ));
+  });
+
+  function downloadCsv(){
+    if(!allRows.length){ alert('कोई डेटा उपलब्ध नहीं है।'); return; }
+    const headers = ['नाम','मोबाइल','ईमेल','गाँव/शहर','सेवा क्षेत्र','संदेश','दिनांक'];
+    const csvRows = [headers.join(',')];
+    allRows.forEach(r => {
+      const row = [r.name, r.phone, r.email, r.village, r.interests, r.message, formatDate(r.created_at)]
+        .map(v => `"${String(v || '').replace(/"/g, '""')}"`);
+      csvRows.push(row.join(','));
+    });
+    const csv = '\uFEFF' + csvRows.join('\n'); // BOM so Excel shows Hindi correctly
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `volunteers-${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+  }
+
+  document.getElementById('admin-key-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryLogin();
+  });
+
+  if(getStoredKey()){
+    load();
+  }
+</script>
+
+</body>
+</html>
